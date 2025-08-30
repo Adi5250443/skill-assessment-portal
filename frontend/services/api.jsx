@@ -1,5 +1,5 @@
 // With Vite proxy, you can use relative paths
-const API_BASE_URL = 'https://skill-assessment-portal.onrender.com/api';
+const API_BASE_URL =process.env.API_BASE_URL || 'https://skill-assessment-portal.onrender.com/api';
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
   return token ? { Authorization: `Bearer ${token}` } : {};
