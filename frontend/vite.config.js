@@ -2,14 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ command }) => {
-  const isProduction = command === 'build';
+  const isDevelopment = command === 'serve';
   
   return {
     plugins: [react()],
     server: {
       port: 3000,
-      // Only use proxy in development
-      ...(!isProduction && {
+      // Only use proxy in development mode
+      ...(isDevelopment && {
         proxy: {
           '/api': {
             target: 'http://localhost:5000',
