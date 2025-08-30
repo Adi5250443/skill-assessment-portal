@@ -20,7 +20,7 @@ const handleResponse = async (response) => {
 export const api = {
   // Auth endpoints
   login: async (email, password) => {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -29,7 +29,7 @@ export const api = {
   },
 
   register: async (userData) => {
-    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -39,7 +39,7 @@ export const api = {
 
   // Skills endpoints
   getSkills: async () => {
-    const response = await fetch(`${API_BASE_URL}/skills`, {
+    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/skills`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
@@ -47,14 +47,14 @@ export const api = {
 
   // Questions endpoints
   getQuestions: async (skillId) => {
-    const response = await fetch(`${API_BASE_URL}/questions/skill/${skillId}`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/questions/skill/${skillId}', {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
   getAllQuestions: async (page = 1, limit = 10) => {
-    const response = await fetch(`${API_BASE_URL}/questions?page=${page}&limit=${limit}`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/questions?page=${page}&limit=${limit}', {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
@@ -62,7 +62,7 @@ export const api = {
 
   // Quiz endpoints
   submitQuiz: async (quizData) => {
-    const response = await fetch(`${API_BASE_URL}/quiz/submit`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/quiz/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -75,21 +75,21 @@ export const api = {
 
   // Reports endpoints
   getUserReports: async (timeframe = 'all') => {
-    const response = await fetch(`${API_BASE_URL}/reports/my-performance?timeframe=${timeframe}`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/reports/my-performance?timeframe=${timeframe}', {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
   getAllUsers: async (page = 1, limit = 10) => {
-    const response = await fetch(`${API_BASE_URL}/users?page=${page}&limit=${limit}`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/users?page=${page}&limit=${limit}', {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
   getStatistics: async () => {
-    const response = await fetch(`${API_BASE_URL}/reports/statistics`, {
+    const response = await fetch('https://skill-assessment-portal.onrender.com/api/reports/statistics', {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
