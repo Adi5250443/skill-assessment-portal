@@ -1,9 +1,8 @@
-// With Vite proxy, you can use relative paths
 const getApiBaseUrl = () => {
-  // Use environment variable if available, otherwise use your deployed backend
   return import.meta.env.VITE_API_BASE_URL || 'https://skill-assessment-portal.onrender.com/api';
 };
 const API_BASE_URL = getApiBaseUrl();
+
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
   return token ? { Authorization: `Bearer ${token}` } : {};
@@ -18,9 +17,9 @@ const handleResponse = async (response) => {
 };
 
 export const api = {
-  // Auth endpoints
+  // Auth
   login: async (email, password) => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/auth/login', {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -29,7 +28,7 @@ export const api = {
   },
 
   register: async (userData) => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/auth/register', {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -37,59 +36,56 @@ export const api = {
     return handleResponse(response);
   },
 
-  // Skills endpoints
+  // Skills
   getSkills: async () => {
-    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/skills`, {
+    const response = await fetch(`${API_BASE_URL}/skills`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
-  // Questions endpoints
+  // Questions
   getQuestions: async (skillId) => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/questions/skill/${skillId}', {
+    const response = await fetch(`${API_BASE_URL}/questions/skill/${skillId}`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
   getAllQuestions: async (page = 1, limit = 10) => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/questions?page=${page}&limit=${limit}', {
+    const response = await fetch(`${API_BASE_URL}/questions?page=${page}&limit=${limit}`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
-  // Quiz endpoints
+  // Quiz
   submitQuiz: async (quizData) => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/quiz/submit', {
+    const response = await fetch(`${API_BASE_URL}/quiz/submit`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders(),
-      },
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
       body: JSON.stringify(quizData),
     });
     return handleResponse(response);
   },
 
-  // Reports endpoints
+  // Reports
   getUserReports: async (timeframe = 'all') => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/reports/my-performance?timeframe=${timeframe}', {
+    const response = await fetch(`${API_BASE_URL}/reports/my-performance?timeframe=${timeframe}`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
   getAllUsers: async (page = 1, limit = 10) => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/users?page=${page}&limit=${limit}', {
+    const response = await fetch(`${API_BASE_URL}/users?page=${page}&limit=${limit}`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
   },
 
   getStatistics: async () => {
-    const response = await fetch('https://skill-assessment-portal.onrender.com/api/reports/statistics', {
+    const response = await fetch(`${API_BASE_URL}/reports/statistics`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
