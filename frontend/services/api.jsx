@@ -1,7 +1,5 @@
-const getApiBaseUrl = () => {
-  return import.meta.env.VITE_API_BASE_URL || 'https://skill-assessment-portal.onrender.com/api';
-};
-const API_BASE_URL = getApiBaseUrl();
+// Direct backend URL - no environment variables, no proxies
+const API_BASE_URL = 'https://skill-assessment-portal.onrender.com/api';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
@@ -19,6 +17,7 @@ const handleResponse = async (response) => {
 export const api = {
   // Auth
   login: async (email, password) => {
+    console.log('Making login request to:', `${API_BASE_URL}/auth/login`);
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -28,6 +27,7 @@ export const api = {
   },
 
   register: async (userData) => {
+    console.log('Making register request to:', `${API_BASE_URL}/auth/register`);
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -38,6 +38,7 @@ export const api = {
 
   // Skills
   getSkills: async () => {
+    console.log('Making getSkills request to:', `${API_BASE_URL}/skills`);
     const response = await fetch(`${API_BASE_URL}/skills`, {
       headers: getAuthHeaders(),
     });
@@ -46,6 +47,7 @@ export const api = {
 
   // Questions
   getQuestions: async (skillId) => {
+    console.log('Making getQuestions request to:', `${API_BASE_URL}/questions/skill/${skillId}`);
     const response = await fetch(`${API_BASE_URL}/questions/skill/${skillId}`, {
       headers: getAuthHeaders(),
     });
@@ -53,6 +55,7 @@ export const api = {
   },
 
   getAllQuestions: async (page = 1, limit = 10) => {
+    console.log('Making getAllQuestions request to:', `${API_BASE_URL}/questions?page=${page}&limit=${limit}`);
     const response = await fetch(`${API_BASE_URL}/questions?page=${page}&limit=${limit}`, {
       headers: getAuthHeaders(),
     });
@@ -61,6 +64,7 @@ export const api = {
 
   // Quiz
   submitQuiz: async (quizData) => {
+    console.log('Making submitQuiz request to:', `${API_BASE_URL}/quiz/submit`);
     const response = await fetch(`${API_BASE_URL}/quiz/submit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
@@ -71,6 +75,7 @@ export const api = {
 
   // Reports
   getUserReports: async (timeframe = 'all') => {
+    console.log('Making getUserReports request to:', `${API_BASE_URL}/reports/my-performance?timeframe=${timeframe}`);
     const response = await fetch(`${API_BASE_URL}/reports/my-performance?timeframe=${timeframe}`, {
       headers: getAuthHeaders(),
     });
@@ -78,6 +83,7 @@ export const api = {
   },
 
   getAllUsers: async (page = 1, limit = 10) => {
+    console.log('Making getAllUsers request to:', `${API_BASE_URL}/users?page=${page}&limit=${limit}`);
     const response = await fetch(`${API_BASE_URL}/users?page=${page}&limit=${limit}`, {
       headers: getAuthHeaders(),
     });
@@ -85,6 +91,7 @@ export const api = {
   },
 
   getStatistics: async () => {
+    console.log('Making getStatistics request to:', `${API_BASE_URL}/reports/statistics`);
     const response = await fetch(`${API_BASE_URL}/reports/statistics`, {
       headers: getAuthHeaders(),
     });
