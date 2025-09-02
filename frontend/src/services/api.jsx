@@ -99,4 +99,14 @@ export const api = {
     });
     return handleResponse(response);
   },
+
+  createQuestion: async (questionData) => {
+    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/auth/questions`, {
+      method: 'POST',
+      headers:getAuthHeaders(),
+      body: JSON.stringify(questionData)
+    });
+  
+    return handleResponse(response);
+  },
 };
