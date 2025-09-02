@@ -101,7 +101,7 @@ export const api = {
   },
 
   createQuestion: async (questionData) => {
-    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/questions`, {
+    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/questions/questions`, {
       method: 'POST',
       headers:getAuthHeaders(),
       body: JSON.stringify(questionData)
