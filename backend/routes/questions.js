@@ -80,7 +80,7 @@ router.post('/', authenticateToken, requireRole(['admin']), [
 
     const { question, option_a, option_b, option_c, option_d, correct_answer, skill_id, difficulty } = req.body;
 
-    const [result] = await db.execute(
+    const [result] = await db.query(
       'INSERT INTO questions (question, option_a, option_b, option_c, option_d, correct_answer, skill_id, difficulty, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [question, option_a, option_b, option_c, option_d, correct_answer, skill_id, difficulty, req.user.id]
     );
@@ -98,7 +98,7 @@ router.put('/:id', authenticateToken, requireRole(['admin']), async (req, res) =
     const { id } = req.params;
     const { question, option_a, option_b, option_c, option_d, correct_answer, difficulty } = req.body;
 
-    await db.execute(
+    await db.query(
       'UPDATE questions SET question = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, correct_answer = ?, difficulty = ? WHERE id = ?',
       [question, option_a, option_b, option_c, option_d, correct_answer, difficulty, id]
     );
@@ -114,7 +114,7 @@ router.put('/:id', authenticateToken, requireRole(['admin']), async (req, res) =
 router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
   try {
     const { id } = req.params;
-    await db.execute('DELETE FROM questions WHERE id = ?', [id]);
+    await db.query('DELETE FROM questions WHERE id = ?', [id]);
     res.json({ message: 'Question deleted successfully' });
   } catch (error) {
     console.error('Error deleting question:', error);

@@ -15,18 +15,12 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
-// app.use(cors({
-//   origin: process.env.NODE_ENV === 'production' ? 'your-frontend-domain.com' : 'http://localhost:3000',
-//   credentials: true
-// }));
-
-
 
 // Also add preflight handler
 app.options('*', cors());
 
 app.use(cors({
-  origin: '*', // ⚠️ Temporary - will fix after frontend deployment
+  origin: '*', // ⚠️ Temporary
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -34,8 +28,8 @@ app.use(cors({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 100 
 });
 app.use(limiter);
 

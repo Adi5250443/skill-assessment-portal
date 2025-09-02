@@ -15,7 +15,7 @@ router.post('/submit', authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     // Get questions with correct answers
-    const [questions] = await connection.execute(
+    const [questions] = await connection.query(
       'SELECT id, correct_answer FROM questions WHERE skill_id = ? ORDER BY id',
       [skillId]
     );
@@ -29,7 +29,7 @@ router.post('/submit', authenticateToken, async (req, res) => {
     const totalQuestions = questions.length;
 
     // Create quiz attempt
-    const [attemptResult] = await connection.execute(
+    const [attemptResult] = await connection.query(
       'INSERT INTO quiz_attempts (user_id, skill_id, score, total_questions, completed_at) VALUES (?, ?, ?, ?, NOW())',
       [userId, skillId, 0, totalQuestions] // Will update score after calculating
     );
@@ -47,7 +47,7 @@ router.post('/submit', authenticateToken, async (req, res) => {
       }
 
       // Save individual answer
-      await connection.execute(
+      await connection.query(
         'INSERT INTO quiz_answers (attempt_id, question_id, selected_answer, is_correct) VALUES (?, ?, ?, ?)',
         [attemptId, question.id, userAnswer, isCorrect]
       );
@@ -56,7 +56,7 @@ router.post('/submit', authenticateToken, async (req, res) => {
     const score = Math.round((correctAnswers / totalQuestions) * 100);
 
     // Update attempt with final score
-    await connection.execute(
+    await connection.query(
       'UPDATE quiz_attempts SET score = ? WHERE id = ?',
       [score, attemptId]
     );

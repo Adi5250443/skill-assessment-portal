@@ -127,10 +127,10 @@ router.get('/all-users', authenticateToken, requireRole(['admin']), async (req, 
 router.get('/statistics', authenticateToken, requireRole(['admin']), async (req, res) => {
   try {
     // Get basic counts
-    const [userCount] = await db.execute('SELECT COUNT(*) as count FROM users WHERE role = "user"');
-    const [skillCount] = await db.execute('SELECT COUNT(*) as count FROM skills');
-    const [questionCount] = await db.execute('SELECT COUNT(*) as count FROM questions');
-    const [attemptCount] = await db.execute('SELECT COUNT(*) as count FROM quiz_attempts');
+    const [userCount] = await db.query('SELECT COUNT(*) as count FROM users WHERE role = "user"');
+    const [skillCount] = await db.query('SELECT COUNT(*) as count FROM skills');
+    const [questionCount] = await db.query('SELECT COUNT(*) as count FROM questions');
+    const [attemptCount] = await db.query('SELECT COUNT(*) as count FROM quiz_attempts');
 
     // Get recent activity
     const [recentAttempts] = await db.query(`
@@ -147,7 +147,7 @@ router.get('/statistics', authenticateToken, requireRole(['admin']), async (req,
     `);
 
     // Get performance trends (last 30 days)
-    const [trends] = await db.execute(`
+    const [trends] = await db.query(`
       SELECT 
         DATE(qa.completed_at) as date,
         COUNT(*) as attempts,

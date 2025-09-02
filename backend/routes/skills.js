@@ -7,7 +7,7 @@ const router = express.Router();
 // Get all skills
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const [skills] = await db.execute('SELECT * FROM skills ORDER BY name');
+    const [skills] = await db.query('SELECT * FROM skills ORDER BY name');
     res.json(skills);
   } catch (error) {
     console.error('Error fetching skills:', error);
@@ -20,7 +20,7 @@ router.post('/', authenticateToken, requireRole(['admin']), async (req, res) => 
   try {
     const { name, description } = req.body;
     
-    const [result] = await db.execute(
+    const [result] = await db.query(
       'INSERT INTO skills (name, description) VALUES (?, ?)',
       [name, description]
     );
@@ -38,7 +38,7 @@ router.put('/:id', authenticateToken, requireRole(['admin']), async (req, res) =
     const { id } = req.params;
     const { name, description } = req.body;
 
-    await db.execute(
+    await db.query(
       'UPDATE skills SET name = ?, description = ? WHERE id = ?',
       [name, description, id]
     );
@@ -54,7 +54,7 @@ router.put('/:id', authenticateToken, requireRole(['admin']), async (req, res) =
 router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
   try {
     const { id } = req.params;
-    await db.execute('DELETE FROM skills WHERE id = ?', [id]);
+    await db.query('DELETE FROM skills WHERE id = ?', [id]);
     res.json({ message: 'Skill deleted successfully' });
   } catch (error) {
     console.error('Error deleting skill:', error);
