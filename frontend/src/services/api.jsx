@@ -101,12 +101,26 @@ export const api = {
   },
 
   createQuestion: async (questionData) => {
-    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/questions/questions`, {
+    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/questions`, {
       method: 'POST',
-      headers:getAuthHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
       body: JSON.stringify(questionData)
     });
   
+    return handleResponse(response);
+  },
+  updateUserRole: async (userId, newRole) => {
+    const response = await fetch(`https://skill-assessment-portal.onrender.com/api/users/${userId}/role`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify({ role: newRole }),
+    });
     return handleResponse(response);
   },
 };
