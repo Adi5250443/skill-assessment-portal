@@ -62,7 +62,7 @@ router.get('/', authenticateToken, requireRole(['admin']), async (req, res) => {
 });
 
 // Create question (admin only)
-router.post('/questions', authenticateToken, requireRole(['admin']), [
+router.post('/', authenticateToken, requireRole(['admin']), [
   body('question').trim().isLength({ min: 10 }).withMessage('Question must be at least 10 characters'),
   body('option_a').trim().notEmpty().withMessage('Option A is required'),
   body('option_b').trim().notEmpty().withMessage('Option B is required'),
